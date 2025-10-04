@@ -1,0 +1,112 @@
+ python -m venv myenv
+.\myenv\Scripts\activate
+pip install django
+django-admin startproject study_room
+cd study_room
+python manage.py runserver
+
+
+project ->
+urls.py
+delete comments
+
+
+
+python manage.py startapp base <- create app
+
+in  study_room(project) settings.py
+inside installed apps 
+'base(app).apps.BaseConfig',
+
+in project ,urls.py 
+from django.http import HttpResponse
+
+
+create urls.py in app
+add 
+from django.urls import path
+from . import views 
+
+
+urlpatterns = [
+   
+    path('', views.home,name="home"),  # Empty path for root URL, calls home function
+]
+
+in views.py
+from django.shortcuts import render
+from django.http import HttpResponse
+
+# Create your views here.
+def home(request):
+    return HttpResponse("Welcome ")
+
+
+
+in project urls.py 
+add this 
+from django.urls import path,include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),  # Admin URL (unchanged)
+    path("",include('base.urls'))----this line
+    
+]
+
+
+create new floder called templates in my project
+create html in templates
+
+go to project ->settings.py
+in TEMPLATES ->
+"DIRS": [
+            BASE_DIR / 'templates'
+            ],
+
+
+go to views.py in app
+# Create your views here.
+def home(request):
+    return render(request,"home.html") <-- modify like this
+
+
+create te navbar in templates
+navbar.html
+
+
+lets include this navbar into all pages
+{% include 'navbar.html' %} 
+
+in templates
+create main.html
+in main.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+</head>
+<body>
+
+    {% include 'navbar.html' %} <<<<-----
+    
+    {% block content %}
+    {% endblock %} 
+</body>
+</html>
+remove the include from the other html pages
+
+
+in html pages
+{% extends "main.html" %}
+
+{% block content %}
+<h1>home template </h1>
+<p>abcdefghijklmnopqrstuvwxyz</p>
+
+{% endblock content %}
+
+
+//////PS C:\Users\Administrator\Desktop\current django\study_room> 
