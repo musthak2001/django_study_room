@@ -110,3 +110,90 @@ in html pages
 
 
 //////PS C:\Users\Administrator\Desktop\current django\study_room> 
+
+
+##DATABASE
+(myenv) (base) PS C:\Users\Administrator\Desktop\current django\study_room> python manage.py migrate
+------------------------------------------------------------------
+go to app -> then views.py
+This means Django will create a database table named Room
+with columns: name, description, updated, and created.
+from django.db import models
+
+class Room(models.Model):
+    name = models.CharField(max_length=200)
+    description = models.TextField(null=True, blank=True)
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+(myenv) (base) PS C:\Users\Administrator\Desktop\current django\study_room> python manage.py makemigrations
+(myenv) (base) PS C:\Users\Administrator\Desktop\current django\study_room> python manage.py migrate
+
+
+superuser
+(myenv) (base) PS C:\Users\Administrator\Desktop\current django\study_room> python manage.py createsuperuser
+
+
+##go to admin.py in app.
+This registers the Room model with the Django Admin Panel.
+from .models import Room
+admin.site.register(Room)
+
+edit in admin
+
+
+##go to views.py
+from .models import Room
+
+from django.shortcuts import render
+from .models import Room
+
+def home(request):
+    rooms = Room.objects.all()
+    context = {'rooms': rooms}
+    return render(request, "home.html", context)
+
+It gets all Room records from the database:
+
+home.html
+{% for room in rooms %}
+  <h3>{{ room.name }}</h3>
+{% endfor %}
+
+
+
+
+
+url to get by id
+views.py
+def room(request,pk):
+    rooms = Room.objects.get(id=pk)
+    return render(request,"room.html")
+
+urls.py
+    path('room/<int:pk>/', views.room, name="room"),
+
+
+##create more models -tables
+import inbuild User models,set foreignkeys and everything
+from django.contrib.auth.models import User
+
+class Topic(models.Model):
+class Message(models.Model):
+
+
+ex:
+host = models.ForeignKey(User, on_delete=models.SET_NULL,null=True)
+topic = models.ForeignKey(Topic, on_delete=models.SET_NULL,null=True)
+
+add this to admin.py
+from .models import Room,Message,Topic
+
+admin.site.register(Message)
+admin.site.register(Topic)
+
+
+
