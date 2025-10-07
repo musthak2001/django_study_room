@@ -196,4 +196,42 @@ admin.site.register(Message)
 admin.site.register(Topic)
 
 
+##crud
+create a folder in app named templates
+in templated create  a folder same app name
+in side that folder create form.html
 
+
+create the view
+create the url
+
+
+thhis is how u link
+<a href="{% url 'create-room' %}"></a> create room is name -> path('create-room/', views.navbar,name="create-room"),
+
+
+create forms.py file inside the app
+from django.forms import ModelForm
+from .models import Room
+
+class RoomForm(ModelForm):
+    class Meta:
+        model = Room
+        fields = '__all__' 
+
+views.py
+def createroom(request):
+    form = RoomForm()
+    context={'form' : form}
+    return render(request,"base/room_form.html",context)
+
+room_form.html
+{% block content %}
+<p>Testing content block...</p>
+<form method="POST" action="">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+    <input type="submit" value="Submit">
+</form>
+{% endblock content %}

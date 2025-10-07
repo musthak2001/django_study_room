@@ -7,9 +7,20 @@
   <div>
     <a href="{% url 'create-room' %}"><h1>Create room</h1></a>
   </div>
+
+  
   <h1>home template </h1>
   {% for room in rooms %}
   <div>
+    <div>
+    <a href="{% url 'update-room' room.id %}"><h1>update room</h1></a>
+  </div>
+
+  <br>
+  <div>
+    <a href="{% url 'update-room' room.id %}"><h1>update room</h1></a>
+  </div>
+
     <span>@{{ room.host.username }}</span>
     <h3>{{ room.id }} -- <a href="{% url 'room' room.id %}">{{ room.name }}</a></h3>
 
