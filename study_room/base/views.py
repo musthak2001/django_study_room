@@ -1,6 +1,10 @@
+from email import message
+from multiprocessing import context
 from django.shortcuts import render,redirect
 from .models import Room,Topic
 from .forms import RoomForm
+from django.contrib.auth.models import User
+
 from django.db.models import Q
 # Create your views here.
 
@@ -64,3 +68,16 @@ def deleteRoom(request,pk):
         room.delete()
         return redirect('home')
     return render(request,'base/delete.html',{'obj':room})
+
+def loginPage(request):
+
+    if request.method == 'POST':
+        email = request.POST.get('username')
+        password = request.POST.get('password')
+
+        try:
+            user=User.objects.get(username=username)
+        except:
+            messages.error(request, 'User does not exists')
+    context = {}
+    return render(request,'base/login_register.html',context)
