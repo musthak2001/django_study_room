@@ -7,6 +7,7 @@ from django.db.models import Q
 from django.contrib import messages
 from .models import Room, Topic
 from .forms import RoomForm
+from django.contrib.auth.forms import UserCreationForm
 
 def home(request):
     q = request.GET.get('q') if request.GET.get('q') is not None else ''
@@ -86,6 +87,8 @@ def deleteRoom(request, pk):
 
 def loginPage(request):
 
+    page = 'login'
+
     if request.user.is_authenticated:
         return redirect('home')
 
@@ -107,10 +110,26 @@ def loginPage(request):
         else:
             messages.error(request, 'Invalid username or password.')
 
-    context = {}
+    context = {'page' : page }
     return render(request, 'base/login_register.html', context)
 
 def logoutPage(request):
     logout(request)
     messages.success(request, 'Logged out successfully!')
     return redirect('home')
+
+def registerUser(request):
+    page = 'register'
+    form = UserCreationForm()
+
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+            login(request,user)
+            return redirect('home')
+        else:
+            messages.error(request,'an error occured during registration')
+    return render(request, 'base/login_register.html',{'form':form})
