@@ -6,6 +6,9 @@ from .forms import RoomForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.db.models import Q
+from django.contrib import messages
+from django.contrib.auth.models import User
+from django.shortcuts import render
 # Create your views here.
 
 
@@ -69,9 +72,7 @@ def deleteRoom(request,pk):
         return redirect('home')
     return render(request,'base/delete.html',{'obj':room})
 
-from django.contrib import messages
-from django.contrib.auth.models import User
-from django.shortcuts import render
+
 
 def loginPage(request):
     if request.method == 'POST':
@@ -92,3 +93,7 @@ def loginPage(request):
 
     context = {}
     return render(request, 'base/login_register.html', context)
+
+def logoutPage(request):
+    logout(request)
+    return redirect('home')
