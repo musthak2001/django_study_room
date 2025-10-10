@@ -1,3 +1,4 @@
+from multiprocessing import context
 from urllib import request
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -5,7 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
 from django.contrib import messages
-from .models import Room, Topic
+from .models import Message, Room, Topic
 from .forms import RoomForm
 from django.contrib.auth.forms import UserCreationForm
 
@@ -27,10 +28,22 @@ def home(request):
     return render(request, "home.html", context)
 
 
-
 def room(request, pk):
     room = get_object_or_404(Room, id=pk)
-    return render(request, "room.html", {'room': room})
+    room_messages = room.message_set.all().order_by('-created')  # Correct field name
+    participants = room.participants.all()
+    if request.method == 'POST':
+        message=Message.objects.create(
+            user=request.user,
+            room=room,
+            body=request.POST.get('body')
+        )
+        return redirect('room',pk=room.id)
+
+
+    context = {'room': room, 'room_messages': room_messages,'participants': participants}
+    return render(request, "room.html", context)
+
 
 
 
