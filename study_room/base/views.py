@@ -38,6 +38,8 @@ def room(request, pk):
             room=room,
             body=request.POST.get('body')
         )
+
+        room.participants.add(request.user)
         return redirect('room',pk=room.id)
 
 
@@ -146,3 +148,30 @@ def registerUser(request):
         else:
             messages.error(request,'an error occured during registration')
     return render(request, 'base/login_register.html',{'form':form})
+
+
+# @login_required(login_url='login')
+# def deleteMessage(request, pk):
+#     message = get_object_or_404(Room, id=pk)
+#     if request.user != message.user:
+#         return HttpResponse('You are not allowed here !!')
+
+#     if request.method == 'POST':
+#         message.delete()
+#         messages.success(request, 'Messages deleted successfully!')
+#         return redirect('room', pk=message.room.id)
+#     return render(request, 'base/delete.html', {'obj': message})
+
+
+@login_required(login_url='login')
+def deleteMessage(request, pk):
+    message = get_object_or_404(Message, id=pk)  # Query Message model
+    if request.user != message.user:  # Check message.user (ForeignKey to User)
+        return HttpResponse('You are not allowed here !!')
+
+    if request.method == 'POST':
+        room_id = message.room.id  # Store room ID before deleting
+        message.delete()
+        messages.success(request, 'Message deleted successfully!')
+        return redirect('room', pk=room_id)  # Redirect to the room
+    return render(request, 'base/delete.html', {'obj': message})
