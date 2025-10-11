@@ -1,4 +1,5 @@
 from multiprocessing import context
+from pydoc_data import topics
 from urllib import request
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -62,7 +63,7 @@ def createroom(request):
         form = RoomForm(request.POST)
         if form.is_valid():
             room = form.save(commit=False)
-            room.user = request.user
+            room.host = request.user
             room.save()
             messages.success(request, 'Room created successfully!')
             return redirect('home')
@@ -163,3 +164,12 @@ def deleteMessage(request, pk):
         messages.success(request, 'Message deleted successfully!')
         return redirect('room', pk=room_id)  # Redirect to the room
     return render(request, 'base/delete.html', {'obj': message})
+
+
+def userProfile(request,pk):
+    user = User.objects.get(id=pk)
+    rooms = user.room_set.all()
+    room_messages = user.message_set.all().order_by('-created')
+    topics = Topic.objects.all()
+    context = { 'user':user, 'rooms':rooms, 'room_message':room_messages ,'topics':topics }
+    return render(request , 'base/profile.html',context)
