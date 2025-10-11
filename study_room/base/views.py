@@ -24,7 +24,8 @@ def home(request):
         rooms = Room.objects.all()
     
     room_count = rooms.count()
-    context = {'rooms': rooms, 'topics': topics, 'room_count': room_count}
+    room_messages=Message.objects.filter(Q(room__topic__name__icontains=q))
+    context = {'rooms': rooms, 'topics': topics, 'room_count': room_count,'room_messages' :room_messages}
     return render(request, "home.html", context)
 
 
@@ -148,19 +149,6 @@ def registerUser(request):
         else:
             messages.error(request,'an error occured during registration')
     return render(request, 'base/login_register.html',{'form':form})
-
-
-# @login_required(login_url='login')
-# def deleteMessage(request, pk):
-#     message = get_object_or_404(Room, id=pk)
-#     if request.user != message.user:
-#         return HttpResponse('You are not allowed here !!')
-
-#     if request.method == 'POST':
-#         message.delete()
-#         messages.success(request, 'Messages deleted successfully!')
-#         return redirect('room', pk=message.room.id)
-#     return render(request, 'base/delete.html', {'obj': message})
 
 
 @login_required(login_url='login')
