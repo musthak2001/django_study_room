@@ -1,8 +1,9 @@
-{% block content %}
+{% extends 'main.html' %}
+
+{% block content %} 
 <p>Testing content block...</p>
 <form method="POST" action="">
     {% csrf_token %}
-
     {{ form.as_p }}
     <input type="submit" value="Submit">
 </form>

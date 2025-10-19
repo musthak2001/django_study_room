@@ -1,27 +1,61 @@
-# Django .gitignore
-
+# ------------------------
 # Python cache and compiled files
+# ------------------------
 *.pyc
-__pycache__/
 *.pyo
 *.pyd
+__pycache__/
 
+# ------------------------
 # Virtual environments
+# ------------------------
 venv/
 myenv/
 
-# SQLite database
+# ------------------------
+# Django database
+# ------------------------
 db.sqlite3
 
+# ------------------------
 # Environment variables
+# ------------------------
 .env
 
+# ------------------------
 # VS Code settings
+# ------------------------
 .vscode/
 
-# Static and media files
-/static/
+# ------------------------
+# Django static and media files
+# ------------------------
+# Ignore all static files (collected or in apps)
+**/static/
+# Ignore uploaded media files
 media/
 
+# ------------------------
 # Logs
+# ------------------------
 *.log
+
+# ------------------------
+# Django migrations (ignore compiled but keep folder)
+# ------------------------
+**/migrations/*.pyc
+**/migrations/__pycache__/
+
+# ------------------------
+# Optional: system files
+# ------------------------
+.DS_Store
+Thumbs.db
+
+# Additional common ignores
+.idea/
+*.swp
+*.swo
+*.pot
+*.py[cod]
+migrations/__init__.py
