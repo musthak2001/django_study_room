@@ -1,20 +1,19 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap");
 
-
-
 :root {
-  --color-main: #71c6dd;
-  --color-main-light: #e1f6fb;
-  --color-dark: #3f4156;
-  --color-dark-medium: #51546e;
-  --color-dark-light: #696d97;
-  --color-light: #e5e5e5;
-  --color-gray: #8b8b8b;
-  --color-light-gray: #b2bdbd;
-  --color-bg: #2d2d39;
-  --color-success: #5dd693;
-  --color-error: #fc4b0b;
+  --color-main: #a259ff;            /* Vibrant neon purple */
+  --color-main-light: #e6d6ff;      /* Soft light lavender */
+  --color-dark: #1f1b2e;            /* Deep purple-black background */
+  --color-dark-medium: #2a2340;     /* Slightly lighter dark for cards/navs */
+  --color-dark-light: #3a3360;      /* Accent dark for hover states */
+  --color-light: #f2eaff;           /* Almost white with a purple tint */
+  --color-gray: #9a8fbf;            /* Muted lavender-gray for text */
+  --color-light-gray: #c8bfe6;      /* Light gray with a soft purple hue */
+  --color-bg: #181222;              /* Background base – dark violet tone */
+  --color-success: #6efacc;         /* Soft aqua-green for success states */
+  --color-error: #ff5c8d;           /* Pinkish red for error messages */
 }
+
 
 /*========== base styles ==========*/
 

@@ -1,4 +1,0 @@
-git status
-git add .
-git commit -m "Finished fixing room form validation"
-git push

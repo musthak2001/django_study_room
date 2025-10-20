@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
 from django.contrib import messages
+
 from .models import Message, Room, Topic
 from .forms import RoomForm
 from django.contrib.auth.forms import UserCreationForm
@@ -181,3 +182,7 @@ def userProfile(request,pk):
     topics = Topic.objects.all()
     context = { 'user':user, 'rooms':rooms, 'room_message':room_messages ,'topics':topics }
     return render(request , 'base/profile.html',context)
+
+@login_required(login_url='login')
+def updateUser(request):
+    return render (request,'base/update-user.html')
